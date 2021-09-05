@@ -528,7 +528,6 @@ function MediaUnlockTest() {
     MediaUnlockTest_NowE ${1};
     MediaUnlockTest_ViuTV ${1};
     MediaUnlockTest_BahamutAnime ${1};
-    MediaUnlockTest_BilibiliChinaMainland ${1};
     MediaUnlockTest_BilibiliHKMCTW ${1};
     MediaUnlockTest_BilibiliTW ${1};
     
