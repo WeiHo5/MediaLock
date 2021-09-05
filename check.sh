@@ -21,7 +21,6 @@ echo -e " ** 系统时间: $(date)" && echo -e " ** 系统时间: $(date)" >> ${
 
 export LANG="en_US";
 export LANGUAGE="en_US";
-export LC_ALL="en_US";
 
 function InstallJQ() {
     #安装JQ
