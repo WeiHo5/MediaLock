@@ -16,7 +16,6 @@ Font_Suffix="\033[0m";
 LOG_FILE="check.log";
 
 clear;
-echo -e "${Font_Purple}国家代码 http://www.loglogo.com/front/countryCode/${Font_Suffix}" && echo -e "国家代码 http://www.loglogo.com/front/countryCode/" >> ${LOG_FILE};
 echo -e " ** 当前版本: v${shell_version}" && echo -e " ** 当前版本: v${shell_version}" >> ${LOG_FILE};
 echo -e " ** 系统时间: $(date)" && echo -e " ** 系统时间: $(date)" >> ${LOG_FILE};
 
@@ -113,36 +112,6 @@ function MediaUnlockTest_BahamutAnime() {
             echo -n -e "\r Bahamut Anime:\t\t\t\t${Font_Red}Failed (Parse Json)${Font_Suffix}\n" && echo -e " Bahamut Anime:\t\t\t\tFailed (Parse Json)" >> ${LOG_FILE};
         fi
     fi
-}
-
-# 流媒体解锁测试-哔哩哔哩大陆限定
-function MediaUnlockTest_BilibiliChinaMainland() {
-    echo -n -e " BiliBili China Mainland Only:\t\t->\c";
-    local randsession="$(cat /dev/urandom | head -n 32 | md5sum | head -c 32)";
-    # 尝试获取成功的结果
-    local result=`curl --user-agent "${UA_Browser}" -${1} -fsSL --max-time 30 "https://api.bilibili.com/pgc/player/web/playurl?avid=82846771&qn=0&type=&otype=json&ep_id=307247&fourk=1&fnver=0&fnval=16&session=${randsession}&module=bangumi" 2>&1`;
-    if [[ "$result" == "curl"* ]]; then
-        echo -n -e "\r BiliBili China Mainland Only:\t\t${Font_Red}Failed (Network Connection)${Font_Suffix}\n" && echo -e " BiliBili China Mainland Only:\t\tFailed (Network Connection)" >> ${LOG_FILE};
-        return;
-    fi
-    
-    local result="$(PharseJSON "${result}" "code")";
-    if [ "$?" -ne "0" ]; then
-        echo -n -e "\r BiliBili China Mainland Only:\t\t${Font_Red}Failed (Parse Json)${Font_Suffix}\n" && echo -e " BiliBili China Mainland Only:\t\tFailed (Parse Json)" >> ${LOG_FILE};
-        return;
-    fi
-    
-    case ${result} in
-        0)
-            echo -n -e "\r BiliBili China Mainland Only:\t\t${Font_Green}Yes${Font_Suffix}\n" && echo -e " BiliBili China Mainland Only:\t\tYes" >> ${LOG_FILE};
-        ;;
-        -10403)
-            echo -n -e "\r BiliBili China Mainland Only:\t\t${Font_Red}No${Font_Suffix}\n" && echo -e " BiliBili China Mainland Only:\t\tNo" >> ${LOG_FILE};
-        ;;
-        *)
-            echo -n -e "\r BiliBili China Mainland Only:\t\t${Font_Red}Failed${Font_Suffix} ${Font_SkyBlue}(${result})${Font_Suffix}\n" && echo -e " BiliBili China Mainland Only:\t\tFailed (${result})" >> ${LOG_FILE};
-        ;;
-    esac
 }
 
 # 流媒体解锁测试-哔哩哔哩港澳台限定
