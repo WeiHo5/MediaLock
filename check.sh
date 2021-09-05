@@ -410,9 +410,6 @@ function MediaUnlockTest() {
     MediaUnlockTest_MyTVSuper ${1};
     MediaUnlockTest_NowE ${1};
     MediaUnlockTest_ViuTV ${1};
-    MediaUnlockTest_BahamutAnime ${1};
-    MediaUnlockTest_BilibiliHKMCTW ${1};
-    MediaUnlockTest_BilibiliTW ${1};
     
     MediaUnlockTest_AbemaTV_IPTest ${1};
     MediaUnlockTest_Paravi ${1};
