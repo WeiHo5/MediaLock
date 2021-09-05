@@ -1,35 +1,4 @@
 #!/bin/bash
-shell_version="1.4.1";
-UA_Browser="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36";
-UA_Dalvik="Dalvik/2.1.0 (Linux; U; Android 9; ALP-AL00 Build/HUAWEIALP-AL00)";
-DisneyAuth="grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange&latitude=0&longitude=0&platform=browser&subject_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiNDAzMjU0NS0yYmE2LTRiZGMtOGFlOS04ZWI3YTY2NzBjMTIiLCJhdWQiOiJ1cm46YmFtdGVjaDpzZXJ2aWNlOnRva2VuIiwibmJmIjoxNjIyNjM3OTE2LCJpc3MiOiJ1cm46YmFtdGVjaDpzZXJ2aWNlOmRldmljZSIsImV4cCI6MjQ4NjYzNzkxNiwiaWF0IjoxNjIyNjM3OTE2LCJqdGkiOiI0ZDUzMTIxMS0zMDJmLTQyNDctOWQ0ZC1lNDQ3MTFmMzNlZjkifQ.g-QUcXNzMJ8DwC9JqZbbkYUSKkB1p4JGW77OON5IwNUcTGTNRLyVIiR8mO6HFyShovsR38HRQGVa51b15iAmXg&subject_token_type=urn%3Abamtech%3Aparams%3Aoauth%3Atoken-type%3Adevice"
-DisneyHeader="authorization: Bearer ZGlzbmV5JmJyb3dzZXImMS4wLjA.Cu56AgSfBTDag5NiRA81oLHkDZfu5L3CKadnefEAY84"
-Font_Black="\033[30m";
-Font_Red="\033[31m";
-Font_Green="\033[32m";
-Font_Yellow="\033[33m";
-Font_Blue="\033[34m";
-Font_Purple="\033[35m";
-Font_SkyBlue="\033[36m";
-Font_White="\033[37m";
-Font_Suffix="\033[0m";
-LOG_FILE="check.log";
-
-clear;
-echo -e "流媒体解锁测试 MediaUnlock_Test" && echo -e "流媒体解锁测试 MediaUnlock_Test" > ${LOG_FILE};
-echo -e "${Font_Purple}项目地址 https://github.com/CoiaPrant/MediaUnlock_Test ${Font_Suffix}" && echo -e "项目地址 https://github.com/CoiaPrant/MediaUnlock_Test" >> ${LOG_FILE};
-echo -e "${Font_Purple}BUG反馈 https://github.com/CoiaPrant/MediaUnlock_Test/issues${Font_Suffix}" && echo -e "BUG反馈 https://github.com/CoiaPrant/MediaUnlock_Test/issues" >> ${LOG_FILE};
-echo -e "${Font_Purple}联系作者 https://t.me/CoiaPrant${Font_Suffix}" && echo -e "联系作者 https://t.me/CoiaPrant" >> ${LOG_FILE};
-echo -e "${Font_Purple}个人频道 https://t.me/CoiaPrant_Blog${Font_Suffix}" && echo -e "个人频道 https://t.me/CoiaPrant_Blog" >> ${LOG_FILE};
-echo -e "${Font_Purple}声明 本测试工具根据GPL V3协议开源，严禁倒卖${Font_Suffix}" && echo -e "声明 本测试工具根据GPL V3协议开源，严禁倒卖" >> ${LOG_FILE};
-echo -e "${Font_Purple}提示 本工具测试结果仅供参考，请以实际使用为准${Font_Suffix}" && echo -e "提示 本工具测试结果仅供参考，请以实际使用为准" >> ${LOG_FILE};
-echo -e "${Font_Purple}国家代码 http://www.loglogo.com/front/countryCode/${Font_Suffix}" && echo -e "国家代码 http://www.loglogo.com/front/countryCode/" >> ${LOG_FILE};
-echo -e " ** 当前版本: v${shell_version}" && echo -e " ** 当前版本: v${shell_version}" >> ${LOG_FILE};
-echo -e " ** 系统时间: $(date)" && echo -e " ** 系统时间: $(date)" >> ${LOG_FILE};
-
-export LANG="en_US";
-export LANGUAGE="en_US";
-export LC_ALL="en_US";
 
 function InstallJQ() {
     #安装JQ
@@ -57,22 +26,6 @@ function PharseJSON() {
     # 使用方法: PharseJSON "要解析的原JSON文本" "要解析的键值"
     # Example: PharseJSON ""Value":"123456"" "Value" [返回结果: 123456]
     echo -n $1 | jq -r .$2;
-}
-
-function PasteBin_Upload() {
-    local uploadresult="$(curl -fsL -X POST \
-        --url https://paste.ubuntu.com \
-        --output /dev/null \
-        --write-out "%{url_effective}\n" \
-        --data-urlencode "content@${PASTEBIN_CONTENT:-/dev/stdin}" \
-        --data "poster=${PASTEBIN_POSTER:-MediaUnlock_Test_By_CoiaPrant}" \
-        --data "expiration=${PASTEBIN_EXPIRATION:-}" \
-    --data "syntax=${PASTEBIN_SYNTAX:-text}")"
-    if [ "$?" = "0" ]; then
-        echo -e "${Font_Green}已生成报告 ${uploadresult} ${Font_Suffix}";
-    else
-        echo -e "${Font_Red}生成报告失败 ${Font_Suffix}";
-    fi
 }
 
 function GameTest_Steam(){
