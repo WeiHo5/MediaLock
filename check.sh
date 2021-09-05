@@ -411,7 +411,6 @@ function MediaUnlockTest() {
     MediaUnlockTest_NowE ${1};
     MediaUnlockTest_ViuTV ${1};
     
-    MediaUnlockTest_AbemaTV_IPTest ${1};
     MediaUnlockTest_Paravi ${1};
     MediaUnlockTest_UNext ${1};
     MediaUnlockTest_HuluJP ${1};
