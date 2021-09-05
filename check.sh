@@ -452,4 +452,3 @@ else
 fi
 echo -e "";
 echo -e "${Font_Green}本次测试结果已保存到 ${LOG_FILE} ${Font_Suffix}";
-cat ${LOG_FILE} | PasteBin_Upload;
