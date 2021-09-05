@@ -81,64 +81,6 @@ function MediaUnlockTest_HBONow() {
     fi
 }
 
-# 流媒体解锁测试-动画疯
-function MediaUnlockTest_BahamutAnime() {
-    echo -n -e " Bahamut Anime:\t\t\t\t->\c";
-    local tmpresult=`curl -${1} --user-agent "${UA_Browser}" --max-time 30 -fsSL 'https://ani.gamer.com.tw/ajax/token.php?adID=89422&sn=14667' 2>&1`;
-    if [[ "$tmpresult" == "curl"* ]]; then
-        echo -n -e "\r Bahamut Anime:\t\t\t\t${Font_Red}Failed (Network Connection)${Font_Suffix}\n" && echo -e " Bahamut Anime:\t\t\t\tFailed (Network Connection)" >> ${LOG_FILE};
-        return;
-    fi
-    
-    local result="$(PharseJSON "$tmpresult" "animeSn")";
-    
-    if [ "$result" != "null" ]; then
-        resultverify="$(echo $result | grep -oE '[0-9]{1,}')";
-        if [ "$?" = "0" ]; then
-            echo -n -e "\r Bahamut Anime:\t\t\t\t${Font_Green}Yes${Font_Suffix}\n" && echo -e " Bahamut Anime:\t\t\t\tYes" >> ${LOG_FILE};
-        else
-            echo -n -e "\r Bahamut Anime:\t\t\t\t${Font_Red}Failed (Parse Json)${Font_Suffix}\n" && echo -e " Bahamut Anime:\t\t\t\tFailed (Parse Json)" >> ${LOG_FILE};
-        fi
-    else
-        local result="$(PharseJSON "$tmpresult" "error.code")";
-        if [ "$result" != "null" ]; then
-            resultverify="$(echo $result | grep -oE '[0-9]{1,}')";
-            if [ "$?" = "0" ]; then
-                echo -n -e "\r Bahamut Anime:\t\t\t\t${Font_Red}No${Font_Suffix}\n" && echo -e " Bahamut Anime:\t\t\t\tNo" >> ${LOG_FILE};
-            else
-                echo -n -e "\r Bahamut Anime:\t\t\t\t${Font_Red}Failed (Parse Json)${Font_Suffix}\n" && echo -e " Bahamut Anime:\t\t\t\tFailed (Parse Json)" >> ${LOG_FILE};
-            fi
-        else
-            echo -n -e "\r Bahamut Anime:\t\t\t\t${Font_Red}Failed (Parse Json)${Font_Suffix}\n" && echo -e " Bahamut Anime:\t\t\t\tFailed (Parse Json)" >> ${LOG_FILE};
-        fi
-    fi
-}
-
-# 流媒体解锁测试-Abema.TV
-#
-function MediaUnlockTest_AbemaTV_IPTest() {
-    echo -n -e " Abema.TV:\t\t\t\t->\c";
-    #
-    local result=`curl --user-agent "${UA_Dalvik}" -${1} -fsL --write-out %{http_code} --max-time 30 "https://api.abema.io/v1/ip/check?device=android" 2>&1`;
-    if [[ "${result}" == "000" ]]; then
-        echo -n -e "\r Abema.TV:\t\t\t\t${Font_Red}Failed (Network Connection)${Font_Suffix}\n" && echo -e " Abema.TV:\t\t\t\tFailed (Network Connection)" >> ${LOG_FILE};
-        return;
-    fi
-    
-    local result=`curl --user-agent "${UA_Dalvik}" -${1} -fsL --max-time 30 "https://api.abema.io/v1/ip/check?device=android" 2>&1`;
-    if [ ! -n "$result" ]; then
-        echo -n -e "\r Abema.TV:\t\t\t\t${Font_Red}No${Font_Suffix}\n" && echo -e " Abema.TV:\t\t\t\tNo" >> ${LOG_FILE};
-        return;
-    fi
-
-    local result=$(PharseJSON "${result}" "isoCountryCode");
-    if [[ "${result}" == "JP" ]];then
-        echo -n -e "\r Abema.TV:\t\t\t\t${Font_Green}Yes${Font_Suffix}\n" && echo -e " Abema.TV:\t\t\t\tYes" >> ${LOG_FILE};
-        return;
-    fi
-    echo -n -e "\r Abema.TV:\t\t\t\t${Font_Yellow}Oversea Only${Font_Suffix}\n" && echo -e " Abema.TV:\t\t\t\tOversea Only" >> ${LOG_FILE};
-}
-
 function MediaUnlockTest_PCRJP() {
     echo -n -e " Princess Connect Re:Dive Japan:\t->\c";
     local result=`curl --user-agent "${UA_Dalvik}" -${1} -fsL --write-out %{http_code} --output /dev/null --max-time 30 https://api-priconne-redive.cygames.jp/ 2>&1`;
