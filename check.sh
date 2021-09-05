@@ -16,11 +16,6 @@ export LANG="en_US";
 export LANGUAGE="en_US";
 export LC_ALL="en_US";
 function Head(){
-clear;
-echo -e "${Font_Red}反馈 https://t.me/zerocloud${Font_Suffix}";
-echo -e "${Font_Red}声明 本测试工具根据GPL V3协议开源，严禁倒卖${Font_Suffix}";
-echo -e "${Font_Red}提示 本工具测试结果仅供参考，请以实际使用为准${Font_Suffix}";
-echo -e " ** Version: v${shell_version}";
 }
 function InstallJQ() {
 	#安装JQ
@@ -93,77 +88,6 @@ function MediaUnlockTest_BahamutAnime() {
     fi
 }
 
-# 流媒体解锁测试-哔哩哔哩大陆限定
-function MediaUnlockTest_BilibiliChinaMainland() {
-    echo -n -e " BiliBili China Mainland Only:\t\t->\c";
-    local randsession="$(cat /dev/urandom | head -n 32 | md5sum | head -c 32)";
-    # 尝试获取成功的结果
-    local result=`curl --user-agent "${UA_Browser}" -${1} -fsSL --max-time 30 "https://api.bilibili.com/pgc/player/web/playurl?avid=82846771&qn=0&type=&otype=json&ep_id=307247&fourk=1&fnver=0&fnval=16&session=${randsession}&module=bangumi" 2>&1`;
-    if [[ "$result" != "curl"* ]]; then
-        local result="$(PharseJSON "${result}" "code")";
-        if [ "$?" = "0" ]; then
-            if [ "${result}" = "0" ]; then
-                echo -n -e "\r BiliBili China Mainland Only:\t\t${Font_Green}Yes${Font_Suffix}\n";
-                elif [ "${result}" = "-10403" ]; then
-                echo -n -e "\r BiliBili China Mainland Only:\t\t${Font_Red}No${Font_Suffix}\n";
-            else
-                echo -n -e "\r BiliBili China Mainland Only:\t\t${Font_Red}Failed${Font_Suffix} ${Font_SkyBlue}(${result})${Font_Suffix}\n";
-            fi
-        else
-            echo -n -e "\r BiliBili China Mainland Only:\t\t${Font_Red}Failed (Parse Json)${Font_Suffix}\n";
-        fi
-    else
-        echo -n -e "\r BiliBili China Mainland Only:\t\t${Font_Red}Failed (Network Connection)${Font_Suffix}\n";
-    fi
-}
-
-# 流媒体解锁测试-哔哩哔哩港澳台限定
-function MediaUnlockTest_BilibiliHKMCTW() {
-    echo -n -e " BiliBili HongKong/Macau/Taiwan:\t->\c";
-    local randsession="$(cat /dev/urandom | head -n 32 | md5sum | head -c 32)";
-    # 尝试获取成功的结果
-    local result=`curl --user-agent "${UA_Browser}" -${1} -fsSL --max-time 30 "https://api.bilibili.com/pgc/player/web/playurl?avid=18281381&cid=29892777&qn=0&type=&otype=json&ep_id=183799&fourk=1&fnver=0&fnval=16&session=${randsession}&module=bangumi" 2>&1`;
-    if [[ "$result" != "curl"* ]]; then
-        local result="$(PharseJSON "${result}" "code")";
-        if [ "$?" = "0" ]; then
-            if [ "${result}" = "0" ]; then
-                echo -n -e "\r BiliBili HongKong/Macau/Taiwan:\t${Font_Green}Yes${Font_Suffix}\n";
-                elif [ "${result}" = "-10403" ]; then
-                echo -n -e "\r BiliBili HongKong/Macau/Taiwan:\t${Font_Red}No${Font_Suffix}\n";
-            else
-                echo -n -e "\r BiliBili HongKong/Macau/Taiwan:\t${Font_Red}Failed${Font_Suffix} ${Font_SkyBlue}(${result})${Font_Suffix}\n";
-            fi
-        else
-            echo -n -e "\r BiliBili HongKong/Macau/Taiwan:\t${Font_Red}Failed (Parse Json)${Font_Suffix}\n";
-        fi
-    else
-        echo -n -e "\r BiliBili HongKong/Macau/Taiwan:\t${Font_Red}Failed (Network Connection)${Font_Suffix}\n";
-    fi
-}
-
-# 流媒体解锁测试-哔哩哔哩台湾限定
-function MediaUnlockTest_BilibiliTW() {
-    echo -n -e " Bilibili Taiwan Only:\t\t\t->\c";
-    local randsession="$(cat /dev/urandom | head -n 32 | md5sum | head -c 32)";
-    # 尝试获取成功的结果
-    local result=`curl --user-agent "${UA_Browser}" -${1} -fsSL --max-time 30 "https://api.bilibili.com/pgc/player/web/playurl?avid=50762638&cid=100279344&qn=0&type=&otype=json&ep_id=268176&fourk=1&fnver=0&fnval=16&session=${randsession}&module=bangumi" 2>&1`;
-    if [[ "$result" != "curl"* ]]; then
-        local result="$(PharseJSON "${result}" "code")";
-        if [ "$?" = "0" ]; then
-            if [ "${result}" = "0" ]; then
-                echo -n -e "\r Bilibili Taiwan Only:\t\t\t${Font_Green}Yes${Font_Suffix}\n";
-                elif [ "${result}" = "-10403" ]; then
-                echo -n -e "\r Bilibili Taiwan Only:\t\t\t${Font_Red}No${Font_Suffix}\n";
-            else
-                echo -n -e "\r Bilibili Taiwan Only:\t\t\t${Font_Red}Failed${Font_Suffix} ${Font_SkyBlue}(${result})${Font_Suffix}\n";
-            fi
-        else
-            echo -n -e "\r Bilibili Taiwan Only:\t\t\t${Font_Red}Failed (Parse Json)${Font_Suffix}\n";
-        fi
-    else
-        echo -n -e "\r Bilibili Taiwan Only:\t\t\t${Font_Red}Failed (Network Connection)${Font_Suffix}\n";
-    fi
-}
 
 # 流媒体解锁测试-Abema.TV
 #
@@ -308,9 +232,6 @@ function MediaUnlockTest() {
     MediaUnlockTest_AbemaTV_IPTest ${1};
     MediaUnlockTest_PCRJP ${1};
     MediaUnlockTest_BBC ${1};
-    MediaUnlockTest_BilibiliChinaMainland ${1};
-    MediaUnlockTest_BilibiliHKMCTW ${1};
-    MediaUnlockTest_BilibiliTW ${1};
     MediaUnlockTest_Netflix ${1};
     MediaUnlockTest_YouTube_Region ${1};
     MediaUnlockTest_DisneyPlus ${1};
